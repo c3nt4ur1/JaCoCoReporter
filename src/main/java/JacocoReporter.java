@@ -158,6 +158,68 @@ public class JacocoReporter {
         }
     }
 
+    public static void reportGz(IBundleCoverage bundle) throws FileNotFoundException{
+
+        System.out.println("Entered the reporting phase");
+
+        File output = new File(targetFile);
+        PrintStream pStream;
+        pStream = new PrintStream(output);
+
+        pStream.println(bundle.getName());
+
+        System.out.println("Ready to iterate over the bundle");
+        //Iterates over all packages, that contain all the classes that contain all the lines
+        //Bundle->Package->Class->Line structure
+        for(IPackageCoverage packageCoverage : bundle.getPackages()){
+
+            String packageName = packageCoverage.getName().replace("/", ".");
+
+            for(IClassCoverage classCoverage : packageCoverage.getClasses()){
+
+                String className = classCoverage.getName().replace("/", ".");
+
+                for(IMethodCoverage methodCoverage : classCoverage.getMethods()){
+
+                    String methodName = methodCoverage.getName().replace("/", ".");
+
+                    String baseSignature = packageName + "." +
+                            className.substring(className.lastIndexOf('.') + 1) + "." +
+                            methodName;
+
+                    if(methodCoverage.getFirstLine() > 0) {
+
+                        for (int i = methodCoverage.getFirstLine(); i <= methodCoverage.getLastLine(); i++) {
+
+                            ILine line = classCoverage.getLine(i);
+
+                            if(line.getStatus() != ICounter.EMPTY && line.getStatus() != 1){
+
+                                /*
+                                 * line.getStatus() results
+                                 *
+                                 * Empty: 0
+                                 * Not Covered: 1
+                                 * Fully Covered: 2
+                                 * Partially Covered: 3
+                                 */
+
+                                /*
+
+                                Line reportableLine = new Line(line.getStatus(), baseSignature + ":" + i);
+                                pStream.println(reportableLine.reportString);
+                                */
+                                pStream.println(baseSignature + "#" + i);
+
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public static void main(String[] args){
 
@@ -168,11 +230,22 @@ public class JacocoReporter {
         projectPath = args[1];
         classesDir = projectPath + "/target/classes";
 
-        try {
-            report(Analyse(deserealize()));
-        } catch (IOException e) {
-            System.out.println("Something went wrong");
-            System.exit(-1);
+        String reportFormat = args[2];
+
+        if(reportFormat.equalsIgnoreCase("default")) {
+            try {
+                report(Analyse(deserealize()));
+            } catch (IOException e) {
+                System.out.println("Something went wrong");
+                System.exit(-1);
+            }
+        }else if(reportFormat.equalsIgnoreCase("gz")){
+            try {
+                reportGz(Analyse(deserealize()));
+            } catch (IOException e) {
+                System.out.println("Something went wrong");
+                System.exit(-1);
+            }
         }
     }
 }
