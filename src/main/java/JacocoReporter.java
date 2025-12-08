@@ -39,7 +39,7 @@ public class JacocoReporter {
     /**
      * Deserealizes the .exec binary and loads it to primary memory
      *
-     * @throws IOException
+     * @throws IOException If the .exec file is invalid or something went wrong in creating the File object
      * @return ExecFileLoader with the sessions and tests data
      */
     public static ExecFileLoader deserealize() throws IOException{
@@ -68,8 +68,8 @@ public class JacocoReporter {
     /**
      * Matches the bytecode files with the ExecutionDataStore data collected in deserealize()
      * @param loader ExecFileLoader with the deserializaion of the .exec file
-     * @return
-     * @throws IOException
+     * @return IBundleCoverage object from the analysis of the deserialized data
+     * @throws IOException If the classes directory (that should contain the .class files) does not exist or if it is a file instead, it throws an IOException
      */
     public static IBundleCoverage Analyse(ExecFileLoader loader) throws IOException{
 
@@ -97,8 +97,8 @@ public class JacocoReporter {
     /**
      * Creates and writes up the report in a .txt file
      *
-     * @param bundle
-     * @throws FileNotFoundException
+     * @param bundle This expects the IBundleCoverage object containing the data bundle from the analysis of the binary deserialization
+     * @throws FileNotFoundException if there is some problem in creating the PrintStream object
      */
     public static void report(IBundleCoverage bundle) throws FileNotFoundException{
 
