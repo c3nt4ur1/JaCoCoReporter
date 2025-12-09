@@ -17,6 +17,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,7 @@ import resources.NTreeNode;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.io.File;
 
 import org.jacoco.core.analysis.ICoverageNode;
 import org.jacoco.core.analysis.IBundleCoverage;
@@ -31,6 +33,23 @@ import org.jacoco.core.analysis.IBundleCoverage;
 public class NTreeNodeTests<T> {
     IBundleCoverage bundle;
     NTreeNode<ICoverageNode> rootNode;
+
+
+    /**
+     * This method sets up the static member of JacocoReporter with a project copied under the root directory of the reporter project
+     */
+    //For now, it only deals with one sample project as test
+    @BeforeAll
+    static void initializeTests(){
+        String projectDir = System.getProperty("sample.project.directory", ".");
+
+        JacocoReporter.projectPath = new File(projectDir).getAbsolutePath();
+
+        JacocoReporter.classesDir = JacocoReporter.projectPath + "/target/classes";
+        JacocoReporter.execFile = JacocoReporter.projectPath + "/target/jacoco.exec";
+
+        JacocoReporter.bundleName = System.getProperty("bundle.name", "tests");
+    }
 
     @BeforeEach
     void setup(){
@@ -49,6 +68,12 @@ public class NTreeNodeTests<T> {
     void wrapUp(){
         bundle = null;
         rootNode = null;
+    }
+
+    //This is just for testing the setups and wrap ups
+    @Test
+    void testTest(){
+        assertEquals(1,1);
     }
 
 }
