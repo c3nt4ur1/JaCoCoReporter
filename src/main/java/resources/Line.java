@@ -14,6 +14,8 @@
    limitations under the License.
  */
 
+package resources;
+
 /**
  * This class deals with formatting the output of each ILine object data to the report with the default report style
  * @author Adriano Naime Bonin (alias c3nt4ur1)
