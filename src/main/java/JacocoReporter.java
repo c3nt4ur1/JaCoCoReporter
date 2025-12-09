@@ -18,6 +18,7 @@
 import org.jacoco.core.analysis.*;
 import org.jacoco.core.data.*;
 import org.jacoco.core.tools.ExecFileLoader;
+import resources.Line;
 
 import java.io.*;
 
@@ -31,7 +32,7 @@ public class JacocoReporter {
     static ExecutionDataStore dataStore;
     static SessionInfoStore sessionStore;
     static String classesDir;
-    static String BundleName;
+    static String bundleName;
     static String targetFile = "JacocoReport.txt";
     static String projectPath;
 
@@ -90,7 +91,7 @@ public class JacocoReporter {
         analyzer.analyzeAll(classesDirectoryFile);
 
         System.out.println("Finished the analysis");
-        return coverageBuilder.getBundle(BundleName);
+        return coverageBuilder.getBundle(bundleName);
     }
 
 
@@ -112,7 +113,7 @@ public class JacocoReporter {
 
         System.out.println("Ready to iterate over the bundle");
         //Iterates over all packages, that contain all the classes that contain all the lines
-        //Bundle->Package->Class->Line structure
+        //Bundle->Package->Class->resources.Line structure
         for(IPackageCoverage packageCoverage : bundle.getPackages()){
 
             String packageName = packageCoverage.getName().replace("/", ".");
@@ -149,8 +150,6 @@ public class JacocoReporter {
                                 Line reportableLine = new Line(line.getStatus(), baseSignature + ":" + i);
                                 pStream.println(reportableLine.reportString);
                             }
-
-
                         }
                     }
                 }
@@ -170,7 +169,7 @@ public class JacocoReporter {
 
         System.out.println("Ready to iterate over the bundle");
         //Iterates over all packages, that contain all the classes that contain all the lines
-        //Bundle->Package->Class->Line structure
+        //Bundle->Package->Class->resources.Line structure
         for(IPackageCoverage packageCoverage : bundle.getPackages()){
 
             String packageName = packageCoverage.getName().replace("/", ".");
@@ -206,14 +205,12 @@ public class JacocoReporter {
 
                                 /*
 
-                                Line reportableLine = new Line(line.getStatus(), baseSignature + ":" + i);
+                                resources.Line reportableLine = new resources.Line(line.getStatus(), baseSignature + ":" + i);
                                 pStream.println(reportableLine.reportString);
                                 */
                                 pStream.println(baseSignature + "#" + i);
 
                             }
-
-
                         }
                     }
                 }
@@ -226,7 +223,7 @@ public class JacocoReporter {
         //Later implement the possibility of variating the input and output files. It is already setup in the class
         //Only dealing with String[] args is necessary; The rest is already calling the modifiable members
 
-        BundleName = args[0];
+        bundleName = args[0];
         projectPath = args[1];
         classesDir = projectPath + "/target/classes";
 
