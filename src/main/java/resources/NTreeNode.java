@@ -30,6 +30,13 @@ public class NTreeNode<T> {
 
     final private T coverageElement;
 
+
+    /**
+     * Standard constructor for each node of the n-ary tree
+     *
+     * @param coverageElement Corresponds to the data to be stored in the node. It's default type is implemented
+     * @param children The linked list where the found leaves (ILine elements)
+     */
     public NTreeNode(T coverageElement, LinkedList<NTreeNode<T>> children){
 
         this.coverageElement = coverageElement;
@@ -46,6 +53,12 @@ public class NTreeNode<T> {
     }
 
     void getLeaves(NTreeNode<T> tree, LinkedList<ILine> target){
+
+        if(!(this.coverageElement instanceof ICoverageNode || !(this.coverageElement instanceof  ILine))){
+            throw new IllegalArgumentException();
+        }
+
+
         if(this.coverageElement instanceof ICoverageNode){
             for(NTreeNode<T> node : tree.childNodes){
                 getLeaves(node, target);
