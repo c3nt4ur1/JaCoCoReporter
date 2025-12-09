@@ -17,6 +17,7 @@
 package resources;
 
 import org.jacoco.core.analysis.ICoverageNode;
+import org.jacoco.core.analysis.ILine;
 
 import java.util.LinkedList;
 
@@ -24,13 +25,33 @@ import java.util.LinkedList;
  * This class is a Graph implementation used in structuring the IBundleCoverage substructure.
  * It is responsible for making the report generating phase better than O(n^4) that the iterative loop would be
  */
-public class NTreeNode {
-    public LinkedList<NTreeNode> childNodes;
+public class NTreeNode<T> {
+    public LinkedList<NTreeNode<T>> childNodes;
 
-    //Super interface used by all the coverage elements classes
-    //Later, the concrete implementation can be got with coverageElement.getElementType()
-    private ICoverageNode coverageElement;
+    final private T coverageElement;
 
+    public NTreeNode(T coverageElement, LinkedList<NTreeNode<T>> children){
 
+        this.coverageElement = coverageElement;
 
+        if(coverageElement instanceof ICoverageNode){
+            this.childNodes = children;
+        }else if(coverageElement instanceof ILine){
+            if(children != null){
+                throw new IllegalArgumentException();
+            }
+            this.childNodes = null;
+        }
+
+    }
+
+    void getLeaves(NTreeNode<T> tree, LinkedList<ILine> target){
+        if(this.coverageElement instanceof ICoverageNode){
+            for(NTreeNode<T> node : tree.childNodes){
+                getLeaves(node, target);
+            }
+        }else{
+            target.addLast((ILine)tree.coverageElement);
+        }
+    }
 }
