@@ -16,6 +16,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sample.project.directory>93b</sample.project.directory>
+        <bundle.name>tests</bundle.name>
     </properties>
 
     <dependencies>
@@ -31,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
@@ -77,6 +79,10 @@
                         <include>**/*Tests.java</include>
                         <include>**/*Test.java</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <sample.project.directory>${sample.project.directory}</sample.project.directory>
+                        <bundle.name>${bundle.name}</bundle.name>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
