@@ -1,11 +1,8 @@
 package resources;
 
-import org.jacoco.core.analysis.IClassCoverage;
-import org.jacoco.core.analysis.ICoverageNode;
 import org.jacoco.core.analysis.ILine;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This interface provides the necessary compatibility between nodes inherited from ICoverageNode and instances of the ILine class
