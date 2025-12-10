@@ -18,5 +18,8 @@ public abstract class NTreeComponent {
      * @param target Linked list to store ILine objects
      */
     public abstract void findLeafs(NTreeComponent root, LinkedList<ILine> target);
+    public LinkedList<NTreeComponent> getChildrenElements(){
+        return this.childrenElements;
+    }
 
 }
