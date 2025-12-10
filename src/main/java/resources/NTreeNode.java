@@ -52,7 +52,7 @@ public class NTreeNode<T> {
 
     }
 
-    void getLeaves(NTreeNode<T> tree, LinkedList<ILine> target){
+    public void getLeaves(LinkedList<ILine> target){
 
         if(!(this.coverageElement instanceof ICoverageNode || !(this.coverageElement instanceof  ILine))){
             throw new IllegalArgumentException();
@@ -60,11 +60,11 @@ public class NTreeNode<T> {
 
 
         if(this.coverageElement instanceof ICoverageNode){
-            for(NTreeNode<T> node : tree.childNodes){
-                getLeaves(node, target);
+            for(NTreeNode<T> node : this.childNodes){
+                node.getLeaves(target);
             }
         }else{
-            target.addLast((ILine)tree.coverageElement);
+            target.addLast((ILine)this.coverageElement);
         }
     }
 }
