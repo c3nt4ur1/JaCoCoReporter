@@ -58,6 +58,18 @@ public class NTreeNode extends NTreeComponent{
 
             }
         }
+    }
 
+    public void setChildrenElements(LinkedList<? extends NTreeComponent> childrenElements){
+
+        Class<?> referenceClass = childrenElements.getFirst().getClass();
+
+        for(NTreeComponent component : childrenElements){
+            if(component.getClass() != referenceClass){
+                throw new IllegalArgumentException();
+            }
+        }
+
+        this.childrenElements = (LinkedList<NTreeComponent>) childrenElements;
     }
 }
