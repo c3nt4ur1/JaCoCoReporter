@@ -15,6 +15,11 @@ public abstract class NTreeComponent {
 
     LinkedList<NTreeComponent> childrenElements = null;
 
+    /**
+     * This is the base of the findLeafs method that is implemented in NTreeNode and causes an exception in NTreeLeaf
+     * @param root Root of the n-ary tree
+     * @param target Linked list to store ILine objects
+     */
     public abstract void findLeafs(NTreeComponent root, LinkedList<ILine> target);
 
 }
