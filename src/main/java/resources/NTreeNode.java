@@ -21,6 +21,11 @@ import org.jacoco.core.analysis.ILine;
 
 import java.util.LinkedList;
 
+
+/**
+ * @author Adriano Naime Bonin (alias c3nt4ur1)
+ * This class represents the nodes of an n-ary tree, that contain some implementation of the ICoverageNode interface from JaCoCo's api
+ */
 public class NTreeNode extends NTreeComponent{
 
     ICoverageNode coverageElement;
@@ -32,6 +37,11 @@ public class NTreeNode extends NTreeComponent{
 
     }
 
+    /**
+     * This method recursively finds all the leafs from the tree and store them in a linked list
+     * @param root The root of the tree to be searched
+     * @param target The linked list where the coverage data for each line will be stored upon accessing its correspondent leaf (NTreeLeaf class)
+     */
     @Override
     public void findLeafs(NTreeComponent root, LinkedList<ILine> target){
 
@@ -51,58 +61,3 @@ public class NTreeNode extends NTreeComponent{
 
     }
 }
-
-/*
-
-/**
- * This class is a Graph implementation used in structuring the IBundleCoverage substructure.
- * It is responsible for making the report generating phase better than O(n^4) that the iterative loop would be
- */
-/*
-public class NTreeNode<T> {
-    public LinkedList<NTreeNode<T>> childNodes;
-
-    final private T coverageElement;
-
-
-    /**
-     * Standard constructor for each node of the n-ary tree
-     *
-     * @param coverageElement Corresponds to the data to be stored in the node. It's default type is implemented
-     * @param children The linked list where the found leaves (ILine elements)
-     */
-
-/*
-    public NTreeNode(T coverageElement, LinkedList<NTreeNode<T>> children){
-
-        this.coverageElement = coverageElement;
-
-        if(coverageElement instanceof ICoverageNode){
-            this.childNodes = children;
-        }else if(coverageElement instanceof ILine){
-            if(children != null){
-                throw new IllegalArgumentException();
-            }
-            this.childNodes = null;
-        }
-
-    }
-
-    public void getLeaves(LinkedList<ILine> target){
-
-        if(!(this.coverageElement instanceof ICoverageNode || !(this.coverageElement instanceof  ILine))){
-            throw new IllegalArgumentException();
-        }
-
-
-        if(this.coverageElement instanceof ICoverageNode){
-            for(NTreeNode<T> node : this.childNodes){
-                node.getLeaves(target);
-            }
-        }else{
-            target.addLast((ILine)this.coverageElement);
-        }
-    }
-}
-
-*/
