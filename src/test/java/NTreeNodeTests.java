@@ -16,11 +16,14 @@
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.jacoco.core.analysis.IPackageCoverage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.platform.commons.util.ReflectionUtils;
+import resources.NTreeComponent;
 import resources.NTreeNode;
 
 import java.io.IOException;
@@ -30,10 +33,10 @@ import java.io.File;
 import org.jacoco.core.analysis.ICoverageNode;
 import org.jacoco.core.analysis.IBundleCoverage;
 
-public class NTreeNodeTests<T> {
+public class NTreeNodeTests {
     IBundleCoverage bundle;
-    NTreeNode<ICoverageNode> rootNode;
-
+    NTreeNode rootNode;
+    NTreeNode bundleRoot;
 
     /**
      * This method sets up the static member of JacocoReporter with a project copied under the root directory of the reporter project
@@ -59,8 +62,10 @@ public class NTreeNodeTests<T> {
             throw new RuntimeException(e);
         }
 
+        LinkedList<NTreeComponent> bundleChildren = new LinkedList<>();
+
         //Generates a tree with the bundle only.
-        rootNode = new NTreeNode<>(bundle, null);
+        bundleRoot = new NTreeNode(bundle, bundleChildren);
 
     }
 
@@ -72,8 +77,30 @@ public class NTreeNodeTests<T> {
 
     //This is just for testing the setups and wrap ups
     @Test
-    void testTest(){
-        assertEquals(1,1);
+    void setupTesting(){
+
+        assertTrue(bundleRoot.getChildrenElements().isEmpty());
+
+    }
+
+    @Test
+    void leafsClassTesting(){
+
+        LinkedList<NTreeNode> IPackageCoverageNodes = new LinkedList<>();
+        LinkedList<IPackageCoverage> bundleChildren = new LinkedList<>();
+
+        for(IPackageCoverage packageCoverage : bundle.getPackages()){
+            IPackageCoverageNodes.addLast(new NTreeNode(packageCoverage, null));
+            bundleChildren.addLast(packageCoverage);
+        }
+        bundleRoot.setChildrenElements(IPackageCoverageNodes);
+
+        assertNotNull(bundleRoot);
+        assertNotNull(bundleRoot.getChildrenElements());
+        for(NTreeComponent node : bundleRoot.getChildrenElements()){
+            assertNotNull(node);
+        }
+
     }
 
 }
