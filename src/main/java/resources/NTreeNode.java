@@ -30,10 +30,10 @@ public class NTreeNode extends NTreeComponent{
 
     ICoverageNode coverageElement;
 
-    public NTreeNode(ICoverageNode covered, LinkedList<NTreeComponent> children){
+    public NTreeNode(ICoverageNode covered){
 
         this.coverageElement = covered;
-        this.childrenElements = children;
+        this.buildChildrenNodes();
 
     }
 
@@ -60,6 +60,10 @@ public class NTreeNode extends NTreeComponent{
         }
     }
 
+    /**
+     * This method sets the children nodes linked list of a node
+     * @param childrenElements
+     */
     public void setChildrenElements(LinkedList<? extends NTreeComponent> childrenElements){
 
         Class<?> referenceClass = childrenElements.getFirst().getClass();
@@ -71,5 +75,12 @@ public class NTreeNode extends NTreeComponent{
         }
 
         this.childrenElements = (LinkedList<NTreeComponent>) childrenElements;
+
+    }
+
+    public void buildChildrenNodes(){
+
+        this.childrenElements = null;
+
     }
 }
