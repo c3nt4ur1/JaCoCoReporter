@@ -87,6 +87,15 @@ public class NTreeNode extends NTreeComponent{
         //this.childrenElements = (LinkedList<>)((IElementType) this.coverageComponent).get[ElementType]();
         //Create NTreeNode elements based on the list, then call the method to them as well
 
+        if(type == ICoverageNode.ElementType.BUNDLE){
+
+        }else if(type == ICoverageNode.ElementType.PACKAGE){
+
+        }else if(type == ICoverageNode.ElementType.CLASS){
+
+        }else if(type == ICoverageNode.ElementType.METHOD){
+
+        }
 
 
     }
