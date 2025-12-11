@@ -19,8 +19,10 @@ import org.jacoco.core.analysis.*;
 import org.jacoco.core.data.*;
 import org.jacoco.core.tools.ExecFileLoader;
 import resources.Line;
+import resources.NTreeNode;
 
 import java.io.*;
+import java.util.LinkedList;
 
 /**
  * This is the primary class that deals with the deserialization of JaCoCo's binaries and the reporting
@@ -111,7 +113,12 @@ public class JacocoReporter {
 
         pStream.println(bundle.getName());
 
-        System.out.println("Ready to iterate over the bundle");
+        System.out.println("Building analysis tree");
+
+        NTreeNode bundleRoot = new NTreeNode(bundle);
+        bundleRoot.buildChildrenNodes();
+
+        /*
         //Iterates over all packages, that contain all the classes that contain all the lines
         //Bundle->Package->Class->resources.Line structure
         for(IPackageCoverage packageCoverage : bundle.getPackages()){
@@ -145,7 +152,7 @@ public class JacocoReporter {
                                  * Not Covered: 1
                                  * Fully Covered: 2
                                  * Partially Covered: 3
-                                 */
+
 
                                 Line reportableLine = new Line(line.getStatus(), baseSignature + ":" + i);
                                 pStream.println(reportableLine.reportString);
@@ -154,7 +161,7 @@ public class JacocoReporter {
                     }
                 }
             }
-        }
+        }*/
     }
 
     public static void reportGz(IBundleCoverage bundle) throws FileNotFoundException{
