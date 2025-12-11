@@ -16,6 +16,7 @@
 
 package resources;
 
+import org.jacoco.core.analysis.IBundleCoverage;
 import org.jacoco.core.analysis.ICoverageNode;
 import org.jacoco.core.analysis.ILine;
 
@@ -80,7 +81,13 @@ public class NTreeNode extends NTreeComponent{
 
     public void buildChildrenNodes(){
 
-        this.childrenElements = null;
+        ICoverageNode.ElementType type = this.coverageElement.getElementType();
+
+        //Inside an if/else if/else clause
+        //this.childrenElements = (LinkedList<>)((IElementType) this.coverageComponent).get[ElementType]();
+        //Create NTreeNode elements based on the list, then call the method to them as well
+
+
 
     }
 }
