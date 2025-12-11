@@ -62,10 +62,8 @@ public class NTreeNodeTests {
             throw new RuntimeException(e);
         }
 
-        LinkedList<NTreeComponent> bundleChildren = new LinkedList<>();
-
         //Generates a tree with the bundle only.
-        bundleRoot = new NTreeNode(bundle, bundleChildren);
+        bundleRoot = new NTreeNode(bundle);
 
     }
 
@@ -90,7 +88,7 @@ public class NTreeNodeTests {
         LinkedList<IPackageCoverage> bundleChildren = new LinkedList<>();
 
         for(IPackageCoverage packageCoverage : bundle.getPackages()){
-            IPackageCoverageNodes.addLast(new NTreeNode(packageCoverage, null));
+            IPackageCoverageNodes.addLast(new NTreeNode(packageCoverage));
             bundleChildren.addLast(packageCoverage);
         }
         bundleRoot.setChildrenElements(IPackageCoverageNodes);
