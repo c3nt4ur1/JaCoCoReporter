@@ -225,10 +225,9 @@ public class JacocoReporter {
         }
     }
 
-    public static void main(String[] args){
 
-        //Later implement the possibility of variating the input and output files. It is already setup in the class
-        //Only dealing with String[] args is necessary; The rest is already calling the modifiable members
+    //Import main method from alfa-1 branch. It has several fixes implemented already
+    public static void main(String[] args){
 
         bundleName = args[0];
         projectPath = args[1];
