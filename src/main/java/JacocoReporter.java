@@ -233,18 +233,44 @@ public class JacocoReporter {
         String reportFormat = args[2];
 
         if(reportFormat.equalsIgnoreCase("default")) {
-            try {
-                report(Analyse(deserealize()));
+
+            try{
+                ExecFileLoader deserialized = deserealize();
+                try{
+                    IBundleCoverage bundleCoverage = Analyse(deserialized);
+                    try{
+                        report(bundleCoverage);
+                    } catch (IOException e) {
+                        System.out.println("Failed to write up the report");
+                        throw new RuntimeException(e);
+                    }
+                }catch (IOException e){
+                    System.out.println("Something went wrong with the analysis step");
+                    throw new RuntimeException(e);
+                }
             } catch (IOException e) {
-                System.out.println("Something went wrong");
-                System.exit(-1);
+                System.out.println("Failed to deserialize the binary .exec file");
+                throw new RuntimeException(e);
             }
         }else if(reportFormat.equalsIgnoreCase("gz")){
-            try {
-                reportGz(Analyse(deserealize()));
+
+            try{
+                ExecFileLoader deserialized = deserealize();
+                try{
+                    IBundleCoverage bundleCoverage = Analyse(deserialized);
+                    try{
+                        reportGz(bundleCoverage);
+                    } catch (IOException e) {
+                        System.out.println("Failed to write up the report");
+                        throw new RuntimeException(e);
+                    }
+                }catch (IOException e){
+                    System.out.println("Something went wrong with the analysis step");
+                    throw new RuntimeException(e);
+                }
             } catch (IOException e) {
-                System.out.println("Something went wrong");
-                System.exit(-1);
+                System.out.println("Failed to deserialize the binary .exec file");
+                throw new RuntimeException(e);
             }
         }
     }
