@@ -230,6 +230,11 @@ public class JacocoReporter {
         projectPath = args[1];
         classesDir = projectPath + "/target/classes";
 
+        if(!(projectPath.equals("."))){
+            execFile = projectPath + "/target/jacoco.exec";
+            System.out.println(execFile);
+        }
+
         String reportFormat = args[2];
 
         if(reportFormat.equalsIgnoreCase("default")) {
