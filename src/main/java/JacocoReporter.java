@@ -20,6 +20,7 @@ import org.jacoco.core.data.*;
 import org.jacoco.core.tools.ExecFileLoader;
 
 import java.io.*;
+import java.security.InvalidParameterException;
 
 /**
  * This is the primary class that deals with the deserialization of JaCoCo's binaries and the reporting
@@ -277,6 +278,9 @@ public class JacocoReporter {
                 System.out.println("Failed to deserialize the binary .exec file");
                 throw new RuntimeException(e);
             }
+        }else{
+            System.out.println("Unknown report format");
+            throw new InvalidParameterException("Invalid report format");
         }
     }
 }
