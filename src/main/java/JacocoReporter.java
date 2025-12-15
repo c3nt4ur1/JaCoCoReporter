@@ -19,6 +19,7 @@ import org.jacoco.core.analysis.*;
 import org.jacoco.core.data.*;
 import org.jacoco.core.tools.ExecFileLoader;
 import resources.Line;
+import resources.NTreeLeaf;
 import resources.NTreeNode;
 
 import java.io.*;
@@ -115,53 +116,17 @@ public class JacocoReporter {
 
         System.out.println("Building analysis tree");
 
+
+        //This should trigger the tree generation for all the levels down to ILine items
         NTreeNode bundleRoot = new NTreeNode(bundle);
         bundleRoot.buildChildrenNodes();
 
-        /*
-        //Iterates over all packages, that contain all the classes that contain all the lines
-        //Bundle->Package->Class->resources.Line structure
-        for(IPackageCoverage packageCoverage : bundle.getPackages()){
+        LinkedList<ILine> linesCoverages = new LinkedList<>();
+        bundleRoot.findLeafs(bundleRoot, linesCoverages);
 
-            String packageName = packageCoverage.getName().replace("/", ".");
-
-            for(IClassCoverage classCoverage : packageCoverage.getClasses()){
-
-                String className = classCoverage.getName().replace("/", ".");
-
-                for(IMethodCoverage methodCoverage : classCoverage.getMethods()){
-
-                    String methodName = methodCoverage.getName().replace("/", ".");
-
-                    String baseSignature = packageName + "." +
-                            className.substring(className.lastIndexOf('.') + 1) + "." +
-                            methodName;
-
-                    if(methodCoverage.getFirstLine() > 0) {
-
-                        for (int i = methodCoverage.getFirstLine(); i <= methodCoverage.getLastLine(); i++) {
-
-                            ILine line = classCoverage.getLine(i);
-
-                            if(line.getStatus() != ICounter.EMPTY){
-
-                                /*
-                                 * line.getStatus() results
-                                 *
-                                 * Empty: 0
-                                 * Not Covered: 1
-                                 * Fully Covered: 2
-                                 * Partially Covered: 3
+        //Now, just iterate over the linesCoverage linked list and format it
 
 
-                                Line reportableLine = new Line(line.getStatus(), baseSignature + ":" + i);
-                                pStream.println(reportableLine.reportString);
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     public static void reportGz(IBundleCoverage bundle) throws FileNotFoundException{
