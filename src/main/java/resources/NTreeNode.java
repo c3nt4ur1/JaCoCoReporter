@@ -16,9 +16,7 @@
 
 package resources;
 
-import org.jacoco.core.analysis.IBundleCoverage;
-import org.jacoco.core.analysis.ICoverageNode;
-import org.jacoco.core.analysis.ILine;
+import org.jacoco.core.analysis.*;
 
 import java.util.LinkedList;
 
@@ -79,6 +77,10 @@ public class NTreeNode extends NTreeComponent{
 
     }
 
+
+    /**
+     * This function recursively set the child nodes for each element of the coverage tree from a IBundleCoverage root
+     */
     public void buildChildrenNodes(){
 
         ICoverageNode.ElementType type = this.coverageElement.getElementType();
@@ -89,14 +91,30 @@ public class NTreeNode extends NTreeComponent{
 
         if(type == ICoverageNode.ElementType.BUNDLE){
 
+            for(IPackageCoverage packageCoverage : (((IBundleCoverage) this.coverageElement).getPackages())){
+                this.childrenElements.addLast(new NTreeNode(packageCoverage));
+                ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
+            }
+
         }else if(type == ICoverageNode.ElementType.PACKAGE){
+
+            for(IClassCoverage classCoverage : (((IPackageCoverage) this.coverageElement).getClasses())){
+                this.childrenElements.addLast(new NTreeNode(classCoverage));
+                ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
+            }
 
         }else if(type == ICoverageNode.ElementType.CLASS){
 
+            for(IMethodCoverage methodCoverage : (((IClassCoverage) this.coverageElement).getMethods())){
+                this.childrenElements.addLast(new NTreeNode(methodCoverage));
+                ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
+            }
+
         }else if(type == ICoverageNode.ElementType.METHOD){
 
+            for(int i = 0; i < ((IMethodCoverage)this.coverageElement).getLineCounter().getTotalCount(); i++){
+                this.childrenElements.addLast(new NTreeLeaf(((IMethodCoverage)this.coverageElement).getLine(i)));
+            }
         }
-
-
     }
 }
