@@ -29,8 +29,9 @@ public class NTreeNode extends NTreeComponent{
 
     ICoverageNode coverageElement;
 
-    public NTreeNode(ICoverageNode covered){
+    public NTreeNode(ICoverageNode covered, String parentNodeName){
 
+        this.coverageItemIdString = parentNodeName + "." +covered.getName();
         this.coverageElement = covered;
         this.buildChildrenNodes();
 
@@ -92,28 +93,28 @@ public class NTreeNode extends NTreeComponent{
         if(type == ICoverageNode.ElementType.BUNDLE){
 
             for(IPackageCoverage packageCoverage : (((IBundleCoverage) this.coverageElement).getPackages())){
-                this.childrenElements.addLast(new NTreeNode(packageCoverage));
+                this.childrenElements.addLast(new NTreeNode(packageCoverage, this.coverageElement.getName()));
                 ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
             }
 
         }else if(type == ICoverageNode.ElementType.PACKAGE){
 
             for(IClassCoverage classCoverage : (((IPackageCoverage) this.coverageElement).getClasses())){
-                this.childrenElements.addLast(new NTreeNode(classCoverage));
+                this.childrenElements.addLast(new NTreeNode(classCoverage, this.coverageElement.getName()));
                 ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
             }
 
         }else if(type == ICoverageNode.ElementType.CLASS){
 
             for(IMethodCoverage methodCoverage : (((IClassCoverage) this.coverageElement).getMethods())){
-                this.childrenElements.addLast(new NTreeNode(methodCoverage));
+                this.childrenElements.addLast(new NTreeNode(methodCoverage, this.coverageElement.getName()));
                 ((NTreeNode)(this.childrenElements.getLast())).buildChildrenNodes();
             }
 
         }else if(type == ICoverageNode.ElementType.METHOD){
 
-            for(int i = 0; i < ((IMethodCoverage)this.coverageElement).getLineCounter().getTotalCount(); i++){
-                this.childrenElements.addLast(new NTreeLeaf(((IMethodCoverage)this.coverageElement).getLine(i)));
+            for(int j = 0; j < ((IMethodCoverage)this.coverageElement).getLineCounter().getTotalCount(); j++){
+                this.childrenElements.addLast(new NTreeLeaf(((IMethodCoverage)this.coverageElement).getLine(j), this.coverageElement.getName(), j));
             }
         }
     }

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 public abstract class NTreeComponent {
 
     LinkedList<NTreeComponent> childrenElements = null;
+    String coverageItemIdString;
 
     /**
      * This is the base of the findLeafs method that is implemented in NTreeNode and causes an exception in NTreeLeaf

@@ -10,8 +10,12 @@ import java.util.LinkedList;
  */
 public class NTreeLeaf extends NTreeComponent{
     ILine lineCoverage;
+    int lineNum;
 
-    public NTreeLeaf(ILine iLine){
+
+    public NTreeLeaf(ILine iLine, String parentNodeName, int lineNum){
+        this.coverageItemIdString = parentNodeName;
+        this.lineNum = lineNum;
         lineCoverage = iLine;
     }
 
