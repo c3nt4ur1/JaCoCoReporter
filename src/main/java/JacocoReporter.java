@@ -118,7 +118,7 @@ public class JacocoReporter {
 
 
         //This should trigger the tree generation for all the levels down to ILine items
-        NTreeNode bundleRoot = new NTreeNode(bundle);
+        NTreeNode bundleRoot = new NTreeNode(bundle, null);
         bundleRoot.buildChildrenNodes();
 
         LinkedList<ILine> linesCoverages = new LinkedList<>();
