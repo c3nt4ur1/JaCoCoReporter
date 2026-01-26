@@ -9,7 +9,7 @@
 
     <groupId>org.c3nt4ur1</groupId>
     <artifactId>JacocoReporter</artifactId>
-    <version>alfa-1</version>
+    <version>alfa-1.1</version>
     <packaging>jar</packaging>
 
     <properties>
